@@ -14,7 +14,7 @@
     vars_files: vars.yml
     tasks:
       - name: Configure MySQL Service
-        service:
+        sysvinit:
           state: started
           enabled: yes
           name: mysql
@@ -30,10 +30,10 @@
           state: present
           priv: '*.*:ALL,GRANT'
           host: '%'
-      - name: Create employees table
-        command: mysql -u {{var_db_user}} -p {{var_db_password}} {{var_db_name}} --skip-column-names --execute "create table employees (name VARCHAR(20))"
-      - name: Add John to employees table
-        command: mysql -u {{var_db_user}} -p {{var_db_password}} {{var_db_name}} --skip-column-names --execute "INSERT INTO employees VALUES ('JOHN')"
+#      - name: Create employees table
+#        command: mysql -u {{var_db_user}} -p {{var_db_password}} {{var_db_name}} --skip-column-names --execute "CREATE TABLE employees (name VARCHAR(20))"
+#      - name: Add John to employees table
+#        command: mysql -u {{var_db_user}} -p {{var_db_password}} {{var_db_name}} --skip-column-names --execute "INSERT INTO employees VALUES ('JOHN')"
   - name: Configure Web Server
     hosts: all
     vars_files: vars.yml
