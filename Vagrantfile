@@ -8,7 +8,7 @@ Vagrant.configure("2") do |config|
         config.vm.define "u#{machine_id}" do |machine|
             machine.vm.hostname = "u#{machine_id}"
             config.vm.provider "docker" do |d|
-                d.image = "messiah62/ubuntu-ssh-enabled"
+                d.image = "mmumshad/ubuntu-ssh-enabled"
                 d.remains_running = true
                 d.has_ssh = true
             end
