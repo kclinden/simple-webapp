@@ -1,45 +1,10 @@
 ---
-  - name: Install Packages
+  - name: Deploy Web Application
     hosts: all
-    vars_files: vars.yml
     tasks:
-      - name: Install python and deps
-        package: 
-          name: "{{ var_python_deps }}"
-      - name: Install sql
-        package: 
-          name: "{{ var_database_deps }}"
-  - name: Configure Database
-    hosts: all
-    vars_files: vars.yml
-    tasks:
-      - name: Configure MySQL Service
-        sysvinit:
-          state: started
-          enabled: yes
-          name: mysql
-        become: yes
-      - name: Create Database
-        mysql_db:
-         name: "{{ var_db_name }}"
-         state: present
-      - name: Configure db user
-        mysql_user:
-          name: "{{ var_db_user }}"
-          password: "{{ var_db_password }}"
-          state: present
-          priv: '*.*:ALL,GRANT'
-          host: '%'
-#      - name: Create employees table
-#        command: mysql -u {{var_db_user}} -p {{var_db_password}} {{var_db_name}} --skip-column-names --execute "CREATE TABLE employees (name VARCHAR(20))"
-#      - name: Add John to employees table
-#        command: mysql -u {{var_db_user}} -p {{var_db_password}} {{var_db_name}} --skip-column-names --execute "INSERT INTO employees VALUES ('JOHN')"
-  - name: Configure Web Server
-    hosts: all
-    vars_files: vars.yml
-    tasks:
-      - name: Install flask and dependencies with pip
-        pip:
-          name: "{{ var_flask_deps }}"      
+    - include: tasks/deploy_db.yml
+    - include: tasks/deploy_web.yml  
+
+              
 
         

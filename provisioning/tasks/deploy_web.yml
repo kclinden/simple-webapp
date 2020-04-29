@@ -1,0 +1,14 @@
+#Configure Web Server
+- name: Install flask and dependencies with pip
+  pip:
+    name: "{{ var_flask_deps }}"
+- name: Copy web-server code
+  copy: 
+    src: app.py
+    dest: /opt/app.py
+- name: Start web-application
+  shell: nohup flask run --host=0.0.0.0 &
+  environment:
+    FLASK_APP: /opt/app.py
+    LC_ALL: "C.UTF-8"
+    LANG: "UTF-8"

@@ -1,0 +1,36 @@
+- name: Install python and deps
+  package: 
+    name: "{{ var_python_deps }}"
+    state: present
+- name: Install sql
+  package: 
+    name: "{{ var_database_deps }}"
+    state: present
+- name: Configure MySQL Service
+  sysvinit:
+    state: started
+    enabled: yes
+    name: mysql
+  become: yes
+- name: Create Database
+  mysql_db:
+    name: "{{ var_db_name }}"
+    state: present
+- name: Configure db user
+  mysql_user:
+    name: "{{ var_db_user }}"
+    password: "{{ var_db_password }}"
+    state: present
+    priv: '*.*:ALL,GRANT'
+    host: '%'
+  #copy the sql file to dest server
+- name: Copy sql file
+  copy:
+    src: employees.sql
+    dest: /tmp/employees.sql
+#import the db
+- name: Import employees.sql 
+  mysql_db:
+    state: import
+    name: all
+    target: /tmp/employees.sql

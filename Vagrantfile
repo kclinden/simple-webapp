@@ -7,6 +7,7 @@ Vagrant.configure("2") do |config|
         #Create Container off loop    
         config.vm.define "u#{machine_id}" do |machine|
             machine.vm.hostname = "u#{machine_id}"
+            config.vm.network "forwarded_port", guest: 5000, host: 5000
             config.vm.provider "docker" do |d|
                 d.image = "mmumshad/ubuntu-ssh-enabled"
                 d.remains_running = true
@@ -15,6 +16,7 @@ Vagrant.configure("2") do |config|
             if machine_id == N
                 machine.vm.provision :ansible do |ansible|
                     ansible.limit = "all"
+                    #ansible.verbose = "-vvv"
                     ansible.playbook = "./provisioning/playbook.yml"
                 end
             end

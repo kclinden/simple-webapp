@@ -15,7 +15,7 @@ var_database_deps:
   - mysql-client
 
 #Database Config
-var_db_name: employees_db
+var_db_name: employee_db
 var_db_user: db_user
 var_db_password: Passw0rd
 
