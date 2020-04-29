@@ -1,25 +1,32 @@
 Vagrant.configure("2") do |config|
-    N = 1
-    config.ssh.insert_key = true
-    config.ssh.username = "root"
-    config.ssh.password = "Passw0rd"
-    (1..N).each do |machine_id|
-        #Create Container off loop    
-        config.vm.define "u#{machine_id}" do |machine|
-            machine.vm.hostname = "u#{machine_id}"
-            config.vm.network "forwarded_port", guest: 5000, host: 5000
-            config.vm.provider "docker" do |d|
-                d.image = "mmumshad/ubuntu-ssh-enabled"
-                d.remains_running = true
-                d.has_ssh = true
-            end
-            if machine_id == N
-                machine.vm.provision :ansible do |ansible|
-                    ansible.limit = "all"
-                    #ansible.verbose = "-vvv"
-                    ansible.playbook = "./provisioning/playbook.yml"
-                end
-            end
-        end
-    end    
-  end
+
+    config.vm.define "db" do |u1|
+        u1.vm.box = "hashicorp/bionic64"
+        u1.vm.hostname = "db"
+        u1.vm.network "private_network", ip: "192.168.50.2"
+        config.vm.provider "vmware_desktop" do |v|
+            v.vmx["numvcpus"] = "1"
+            v.vmx["memsize"] = "512"
+        end 
+    end
+
+    config.vm.define "web" do |u2|
+        u2.vm.box = "hashicorp/bionic64"
+        u2.vm.hostname = "web"
+        u2.vm.network "private_network", ip: "192.168.50.3"
+        config.vm.provider "vmware_desktop" do |v|
+            v.vmx["numvcpus"] = "1"
+            v.vmx["memsize"] = "512"
+        end   
+    end
+
+    config.vm.provision "ansible" do |ansible|
+        ansible.become = true
+        ansible.groups = {
+            "db" => ["db"],
+            "web" => ["web"]
+        }
+        ansible.playbook = "provisioning/playbook.yml"
+    end 
+
+end

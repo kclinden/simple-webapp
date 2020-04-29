@@ -1,0 +1,8 @@
+---
+# vars file for flask-webapp
+#Flask Packages
+#pip install flask
+#pip install flask-mysql
+var_flask_deps:
+  - flask
+  - flask-mysql

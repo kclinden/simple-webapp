@@ -2,26 +2,9 @@
 #Python Dependencies
 #apt-get install -y python python-setuptools python-dev build-essential python-pip python-mysqldb
 var_python_deps:
-  - python3
-  - python3-setuptools
-  - python3-dev
+  - python
+  - python-setuptools
+  - python-dev
   - build-essential
-  - python3-pip
-  - python3-mysqldb
-#Database Packages
-#apt-get install -y mysql-server mysql-client
-var_database_deps:
-  - mysql-server
-  - mysql-client
-
-#Database Config
-var_db_name: employee_db
-var_db_user: db_user
-var_db_password: Passw0rd
-
-#Flask Packages
-#pip install flask
-#pip install flask-mysql
-var_flask_deps:
-  - flask
-  - flask-mysql
+  - python-pip
+  - python-mysqldb

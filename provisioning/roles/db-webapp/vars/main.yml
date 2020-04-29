@@ -1,0 +1,12 @@
+---
+# vars file for db-webapp
+#Database Packages
+#apt-get install -y mysql-server mysql-client
+var_database_deps:
+  - mysql-server
+  - mysql-client
+
+#Database Config
+var_db_name: employee_db
+var_db_user: db_user
+var_db_password: Passw0rd

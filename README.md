@@ -19,7 +19,11 @@ Access a container.
 `ssh root@<local_ip or remote_ip> -p <port> -i <private_key>`
 
 Test ansible connectivity.   
-`ansible all -m ping -i ./.vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory `   
+`ansible all -m ping -i ./.vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory `  
+
+Test the application.  
+`curl localhost:5000/`
+`curl localhost:5000/read%20from%20database`
 
 Destroy the environment.  
 `vagrant destroy -f`

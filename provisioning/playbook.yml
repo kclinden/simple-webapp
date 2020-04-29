@@ -1,9 +1,19 @@
 ---
-  - name: Deploy Web Application
+  - name: Install Dependencies
     hosts: all
     tasks:
-    - include: tasks/deploy_db.yml
-    - include: tasks/deploy_web.yml  
+    - name: Install python and deps
+      package: 
+        name: "{{ var_python_deps }}"
+        state: present
+  - name: Deploy Database 
+    hosts: db
+    roles:
+    - db-webapp
+  - name: Deploy Web Application
+    hosts: web
+    roles:
+    - flask-webapp
 
               
 

@@ -1,7 +1,5 @@
-- name: Install python and deps
-  package: 
-    name: "{{ var_python_deps }}"
-    state: present
+---
+# tasks file for db-webapp
 - name: Install sql
   package: 
     name: "{{ var_database_deps }}"
@@ -12,6 +10,16 @@
     enabled: yes
     name: mysql
   become: yes
+- name: Configure mysql bind address to be 0.0.0.0
+  lineinfile:
+    path: /etc/mysql/mysql.conf.d/mysqld.cnf 
+    state: present
+    regexp: '^bind-address'
+    line: bind-address = 0.0.0.0
+- name: Clean Database
+  mysql_db:
+    name: "{{ var_db_name }}"
+    state: absent
 - name: Create Database
   mysql_db:
     name: "{{ var_db_name }}"
