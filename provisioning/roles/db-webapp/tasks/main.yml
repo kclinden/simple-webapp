@@ -16,6 +16,7 @@
     state: present
     regexp: '^bind-address'
     line: bind-address = 0.0.0.0
+  notify: restart mysql
 - name: Clean Database
   mysql_db:
     name: "{{ var_db_name }}"
